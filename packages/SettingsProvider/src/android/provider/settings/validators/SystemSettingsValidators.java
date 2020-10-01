@@ -246,5 +246,6 @@ public class SystemSettingsValidators {
         VALIDATORS.put(System.SCREENSHOT_GESTURE_DELAY, new InclusiveIntegerRangeValidator(0, 500));
         VALIDATORS.put(System.FOD_GESTURE, BOOLEAN_VALIDATOR);
         VALIDATORS.put(System.FORCE_SHOW_NAVBAR, ANY_INTEGER_VALIDATOR);
+        VALIDATORS.put(System.GREETING_MODE_ANIMATIONS, ANY_INTEGER_VALIDATOR);
     }
 }

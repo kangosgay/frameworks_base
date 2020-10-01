@@ -5404,6 +5404,12 @@ public final class Settings {
         public static final String THEMING_SETTINGS_DASHBOARD_ICONS = "theming_settings_dashboard_icons";
 
         /**
+         * Settings dashboard icon style
+         * @hide
+         */
+        public static final String GREETING_MODE_ANIMATIONS = "greeting_mode_animations";
+
+        /**
          * Whether the phone vibrates on call connect
          * @hide
          */
@@ -6180,6 +6186,12 @@ public final class Settings {
         public static final String STATUSBAR_COLOR_ICON = "statusbar_color_icon";
 
         /**
+         * Some creation simillar to samsung OneUI
+         * @hide
+         */
+        public static final String SETTINGS_SPACER = "settings_spacer";
+
+        /**
          * Keys we no longer back up under the current schema, but want to continue to
          * process when restoring historical backup datasets.
          *
@@ -6363,6 +6375,7 @@ public final class Settings {
             PRIVATE_SETTINGS.add(HIDE_SMART_REPLIES);
             PRIVATE_SETTINGS.add(NETWORK_TRAFFIC_VIEW_LOCATION);
             PRIVATE_SETTINGS.add(STATUSBAR_COLOR_ICON);
+            PRIVATE_SETTINGS.add(GREETING_MODE_ANIMATIONS);
         }
 
         /**
