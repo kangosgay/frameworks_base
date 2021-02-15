@@ -24,5 +24,7 @@
 
     <color name="material_grey_800">#80000000</color>
 
+    <color name="card_view_bg">#80000000</color>
+
 </resources>
 
