@@ -85,6 +85,12 @@
     </style>
 
 
+    <style
+        name="TextAppearance.DateQSHeader">
+        <item name="android:textColor">?attr/wallpaperTextColor</item>  
+        <item name="android:textSize">@dimen/qs_header_date_size</item>
+    </style>
+
     <style name="TextAppearance.StatusBar.HeadsUp"
         parent="@*android:style/TextAppearance.StatusBar">
     </style>
@@ -97,9 +103,8 @@
     </style>
 
     <style name="TextAppearance.StatusBar.Clock" parent="@*android:style/TextAppearance.StatusBar.Icon">
-        <item name="android:textSize">@dimen/status_bar_clock_size</item>
-        <item name="android:fontFamily">@*android:string/config_headlineFontFamilyMedium</item>
-        <item name="android:textColor">@color/status_bar_clock_color</item>
+        <item name="android:textSize">21dp</item>
+        <item name="android:textColor">?attr/wallpaperTextColor</item>
     </style>
 
     <style name="TextAppearance.StatusBar.Expanded" parent="@*android:style/TextAppearance.StatusBar">
@@ -460,6 +465,11 @@
     <style name="QSHeaderTheme" parent="@style/Theme.SystemUI">
         <item name="lightIconTheme">@style/DualToneLightTheme</item>
         <item name="darkIconTheme">@style/QSHeaderDarkTheme</item>
+    </style>
+
+    <style name="QQSHeaderTheme" parent="@style/Theme.SystemUI">
+        <item name="lightIconTheme">@style/DualToneLightTheme</item>
+        <item name="darkIconTheme">@style/DualToneLightTheme</item>
     </style>
 
     <style name="QSIconTheme">

@@ -78,8 +78,6 @@ public class QSContainerImpl extends FrameLayout implements
     private View mQSPanelContainer;
 
     private View mBackground;
-    private View mBackgroundGradient;
-    private View mStatusBarBackground;
 
     private int mSideMargins;
     private boolean mQsDisabled;
@@ -103,8 +101,6 @@ public class QSContainerImpl extends FrameLayout implements
         mQSCustomizer = findViewById(R.id.qs_customize);
         mDragHandle = findViewById(R.id.qs_drag_handle_view);
         mBackground = findViewById(R.id.quick_settings_background);
-        mStatusBarBackground = findViewById(R.id.quick_settings_status_bar_background);
-        mBackgroundGradient = findViewById(R.id.quick_settings_gradient_view);
         updateResources();
         mHeader.getHeaderQsPanel().setMediaVisibilityChangedListener((visible) -> {
             if (mHeader.getHeaderQsPanel().isShown()) {
@@ -153,7 +149,6 @@ public class QSContainerImpl extends FrameLayout implements
     @Override
     protected void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
-        setBackgroundGradientVisibility(newConfig);
         updateResources();
         mSizePoint.set(0, 0); // Will be retrieved on next measure pass.
     }
@@ -173,8 +168,6 @@ public class QSContainerImpl extends FrameLayout implements
 
     private void updateAlpha() {
         mBackground.getBackground().setAlpha(mQsBackgroundAlpha);
-        mStatusBarBackground.getBackground().setAlpha(mQsBackgroundAlpha);
-        mBackgroundGradient.getBackground().setAlpha(mQsBackgroundAlpha);
     }
 
     @Override
@@ -242,7 +235,6 @@ public class QSContainerImpl extends FrameLayout implements
         final boolean disabled = (state2 & DISABLE2_QUICK_SETTINGS) != 0;
         if (disabled == mQsDisabled) return;
         mQsDisabled = disabled;
-        setBackgroundGradientVisibility(getResources().getConfiguration());
         mBackground.setVisibility(mQsDisabled ? View.GONE : View.VISIBLE);
     }
 
@@ -253,15 +245,13 @@ public class QSContainerImpl extends FrameLayout implements
         mQSPanelContainer.setLayoutParams(layoutParams);
 
         mSideMargins = getResources().getDimensionPixelSize(R.dimen.notification_side_paddings);
-        mContentPaddingStart = getResources().getDimensionPixelSize(
-                com.android.internal.R.dimen.notification_content_margin_start);
-        int newPaddingEnd = getResources().getDimensionPixelSize(
-                com.android.internal.R.dimen.notification_content_margin_end);
+        mContentPaddingStart = getResources().getDimensionPixelSize(R.dimen.qs_panel_margin_start);
+        int newPaddingEnd = getResources().getDimensionPixelSize(R.dimen.qs_panel_margin_end);
         boolean marginsChanged = newPaddingEnd != mContentPaddingEnd;
         mContentPaddingEnd = newPaddingEnd;
-        if (marginsChanged) {
+        //if (marginsChanged) {
             updatePaddingsAndMargins();
-        }
+        //}
     }
 
     /**
@@ -310,15 +300,6 @@ public class QSContainerImpl extends FrameLayout implements
                 + mHeader.getHeight();
     }
 
-    private void setBackgroundGradientVisibility(Configuration newConfig) {
-        if (newConfig.orientation == ORIENTATION_LANDSCAPE) {
-            mBackgroundGradient.setVisibility(View.INVISIBLE);
-            mStatusBarBackground.setVisibility(View.INVISIBLE);
-        } else {
-            mBackgroundGradient.setVisibility(mQsDisabled ? View.INVISIBLE : View.VISIBLE);
-            mStatusBarBackground.setVisibility(View.VISIBLE);
-        }
-    }
 
     public void setExpansion(float expansion) {
         mQsExpansion = expansion;
@@ -329,8 +310,7 @@ public class QSContainerImpl extends FrameLayout implements
     private void updatePaddingsAndMargins() {
         for (int i = 0; i < getChildCount(); i++) {
             View view = getChildAt(i);
-            if (view == mStatusBarBackground || view == mBackgroundGradient
-                    || view == mQSCustomizer) {
+            if (view == mQSCustomizer) {
                 // Some views are always full width
                 continue;
             }
