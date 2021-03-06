@@ -404,7 +404,7 @@
     <dimen name="status_bar_header_padding_bottom">48dp</dimen>
 
      <!-- The font size for the clock in the qs header. -->
-    <dimen name="qs_header_clock_size">55dp</dimen>
+    <dimen name="qs_header_clock_size">40dp</dimen>
 
     <!-- The font size for the date in the qs header. -->
     <dimen name="qs_header_date_size">14dp</dimen>

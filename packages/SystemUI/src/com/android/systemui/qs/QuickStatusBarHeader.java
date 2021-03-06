@@ -320,7 +320,6 @@ public class QuickStatusBarHeader extends RelativeLayout implements
         ignored.add("speakerphone");
         ignored.add("vpn");
         ignored.add("hotspot");
-        ignored.add("networktraffic");
 
         return ignored;
     }
@@ -359,7 +358,6 @@ public class QuickStatusBarHeader extends RelativeLayout implements
         }
         mRingerModeIcon.setVisibility(ringerVisible ? View.VISIBLE : View.GONE);
         mRingerModeTextView.setVisibility(ringerVisible ? View.VISIBLE : View.GONE);
-        mRingerModeTextView.setVisibility(View.GONE);
         mRingerContainer.setVisibility(ringerVisible ? View.VISIBLE : View.GONE);
 
         return isOriginalVisible != ringerVisible ||
