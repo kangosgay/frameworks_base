@@ -248,6 +248,8 @@ public class FODCircleView extends ImageView implements TunerService.Tunable {
                         show();
                     }
                 }
+            } else {
+                hide();
             }
             if (mFODAnimation != null) {
                 mFODAnimation.setAnimationKeyguard(mIsBouncer);
@@ -322,7 +324,7 @@ public class FODCircleView extends ImageView implements TunerService.Tunable {
         mParams.format = PixelFormat.TRANSLUCENT;
 
         mParams.packageName = "android";
-        mParams.type = WindowManager.LayoutParams.TYPE_KEYGUARD_DIALOG;
+        mParams.type = WindowManager.LayoutParams.TYPE_DISPLAY_OVERLAY;
         mParams.flags = WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE |
                 WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN |
                 WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED;
@@ -592,18 +594,8 @@ public class FODCircleView extends ImageView implements TunerService.Tunable {
             return;
         }
 
-        if (mUpdateMonitor.userNeedsStrongAuth()) {
-            // Keyguard requires strong authentication (not biometrics)
-            return;
-        }
-
         if (mIsBouncer && !isPinOrPattern(mUpdateMonitor.getCurrentUser())) {
             // Ignore show calls when Keyguard password screen is being shown
-            return;
-        }
-
-        if (mIsKeyguard && mUpdateMonitor.getUserCanSkipBouncer(mUpdateMonitor.getCurrentUser())) {
-            // Ignore show calls if user can skip bouncer
             return;
         }
 
