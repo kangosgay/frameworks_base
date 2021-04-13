@@ -5260,6 +5260,12 @@ public final class Settings {
          */
         public static final String RINGTONE_VIBRATION_PATTERN = "ringtone_vibration_pattern";
 
+	/**
+         * Screenshot image compression
+         * @hide
+         */
+        public static final String SCREENSHOT_COMPRESSION = "screenshot_compression";
+
         /**
          * Holds current enabled volume panel implementation
          * @hide
