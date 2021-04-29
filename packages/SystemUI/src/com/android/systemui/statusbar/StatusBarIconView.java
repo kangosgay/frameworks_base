@@ -52,6 +52,7 @@ import android.view.ViewDebug;
 import android.view.accessibility.AccessibilityEvent;
 import android.view.animation.Interpolator;
 
+import com.android.internal.util.du.Utils;
 import androidx.core.graphics.ColorUtils;
 
 import com.android.internal.statusbar.StatusBarIcon;
@@ -168,6 +169,7 @@ public class StatusBarIconView extends AnimatedImageView implements StatusIconDi
     private Runnable mOnDismissListener;
     private boolean mIncreasedSize;
     private boolean mShowsConversation;
+    private boolean ShouldColor;
 
     public StatusBarIconView(Context context, String slot, StatusBarNotification sbn) {
         this(context, slot, sbn, false);
@@ -220,6 +222,9 @@ public class StatusBarIconView extends AnimatedImageView implements StatusIconDi
             updateIconScaleForSystemIcons();
         }
     }
+
+        boolean ColorStatusbarIcon = Settings.System.getIntForUser(getContext().getContentResolver(),
+                Settings.System.STATUSBAR_COLOR_ICON, 1, UserHandle.USER_CURRENT) == 1;
 
     private void updateIconScaleForNotifications() {
         final float imageBounds = mIncreasedSize ?
@@ -422,20 +427,24 @@ public class StatusBarIconView extends AnimatedImageView implements StatusIconDi
      * @return Drawable for this item, or null if the package or item could not
      *         be found
      */
-    public static Drawable getIcon(Context context, StatusBarIcon statusBarIcon) {
+    public Drawable getIcon(Context context, StatusBarIcon statusBarIcon) {
         int userId = statusBarIcon.user.getIdentifier();
         if (userId == UserHandle.USER_ALL) {
             userId = UserHandle.USER_SYSTEM;
         }
 
         Drawable icon;
-        String pkgName = statusBarIcon.pkg;
-        mIsSystemUI = pkgName.contains("systemui");
-        try {
-            icon = mIsSystemUI ? statusBarIcon.icon.loadDrawableAsUser(context, userId)
-                               : context.getPackageManager().getApplicationIcon(pkgName);
-        } catch (android.content.pm.PackageManager.NameNotFoundException e) {
-            icon = statusBarIcon.icon.loadDrawableAsUser(context, userId);
+        if (ColorStatusbarIcon) {
+            String pkgName = statusBarIcon.pkg;
+            mIsSystemUI = pkgName.contains("systemui");
+            try {
+                icon = mIsSystemUI ? statusBarIcon.icon.loadDrawableAsUser(context, userId)
+                                   : context.getPackageManager().getApplicationIcon(pkgName);
+            } catch (android.content.pm.PackageManager.NameNotFoundException e) {
+                icon = statusBarIcon.icon.loadDrawableAsUser(context, userId);
+            }
+        } else {
+                icon = statusBarIcon.icon.loadDrawableAsUser(context, userId);
         }
 
         TypedValue typedValue = new TypedValue();
