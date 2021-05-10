@@ -31,10 +31,12 @@
     <com.android.systemui.settings.ToggleSeekBar
         android:id="@+id/slider"
         android:layout_width="0dp"
+        android:thumbTint="@color/transparent"
         android:layout_height="wrap_content"
         android:layout_toEndOf="@id/toggle"
         android:layout_centerVertical="true"
         android:layout_alignParentStart="true"
+        android:thumb="@drawable/ic_brightness_thumb"
         android:layout_alignParentEnd="true"
         android:paddingStart="10dp"
         android:paddingEnd="10dp"

@@ -17,19 +17,51 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:systemui="http://schemas.android.com/apk/res-auto"
     android:id="@+id/quick_qs_status_icons"
-    android:layout_width="match_parent"
+    android:layout_width="wrap_content"
     android:layout_height="@dimen/qs_header_tooltip_height"
     android:layout_below="@id/quick_status_bar_system_icons"
+    android:background="@drawable/qs_background_primary_kang"
+    android:layout_marginTop="7dp"
     android:clipChildren="false"
     android:clipToPadding="false"
     android:clickable="false"
     android:focusable="true"
-    android:visibility="gone"
+    android:layout_alignParentEnd="true"
     android:theme="@style/QSHeaderTheme">
+
+    <LinearLayout
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:id="@+id/daily_data_usage_layout"
+        android:clipChildren="false"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent">
+        <ImageView
+            android:id="@+id/daily_data_usage_icon"
+            android:visibility="gone"
+            android:layout_width="18dp"
+            android:layout_height="18dp"
+            android:layout_marginLeft="6dp"
+            android:src="@drawable/ic_data_saver_off"
+            android:layout_centerVertical="true" />
+        <com.android.systemui.statusbar.info.DataUsageView
+            android:textAppearance="@style/TextAppearance.StatusBar.Datausage"
+            android:id="@+id/data_sim_usage"
+            android:visibility="gone"
+            android:textStyle="bold"
+            android:layout_marginRight="6dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:singleLine="true"
+            android:layout_toLeftOf="@+id/daily_data_usage_icon"
+            android:layout_centerVertical="true" />
+    </LinearLayout>
+
 
     <com.android.systemui.statusbar.policy.DateView
         android:id="@+id/date"
-        android:layout_width="wrap_content"
+        android:visibility="gone"
+        android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_gravity="start|center_vertical"
         android:gravity="center_vertical"
@@ -41,7 +73,6 @@
         android:id="@+id/statusIcons"
         android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:layout_weight="1"
         android:paddingEnd="@dimen/signal_cluster_battery_padding" />
 
 </LinearLayout>

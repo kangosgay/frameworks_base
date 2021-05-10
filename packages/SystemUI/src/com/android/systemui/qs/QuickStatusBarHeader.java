@@ -38,8 +38,6 @@ import android.os.Handler;
 import android.os.UserHandle;
 import android.provider.CalendarContract;
 import android.os.Looper;
-import android.os.UserManager;
-import android.os.UserHandle;
 import android.graphics.PorterDuff.Mode;
 import android.provider.AlarmClock;
 import android.provider.Settings;
@@ -84,18 +82,12 @@ import com.android.systemui.statusbar.CommandQueue;
 import com.android.systemui.statusbar.phone.StatusBarIconController;
 import com.android.systemui.statusbar.phone.StatusBarIconController.TintedIconManager;
 import com.android.systemui.statusbar.phone.StatusBarWindowView;
-import com.android.systemui.statusbar.phone.MultiUserSwitch;
-import com.android.settingslib.drawable.UserIconDrawable;
-import com.android.keyguard.KeyguardUpdateMonitor;
-import android.graphics.drawable.Drawable;
 import com.android.systemui.statusbar.phone.StatusIconContainer;
 import com.android.systemui.statusbar.policy.Clock;
 import com.android.systemui.statusbar.policy.DateView;
 import com.android.systemui.statusbar.policy.NextAlarmController;
 import com.android.systemui.statusbar.policy.ZenModeController;
 import com.android.systemui.util.RingerModeTracker;
-import com.android.systemui.statusbar.policy.UserInfoController;
-import com.android.systemui.statusbar.policy.UserInfoController.OnUserInfoChangedListener;
 import com.android.systemui.tuner.TunerService;
 
 import java.util.ArrayList;
@@ -113,7 +105,7 @@ import javax.inject.Named;
  */
 public class QuickStatusBarHeader extends RelativeLayout implements
         View.OnClickListener, NextAlarmController.NextAlarmChangeCallback,
-        ZenModeController.Callback, LifecycleOwner, OnUserInfoChangedListener, TunerService.Tunable {
+        ZenModeController.Callback, LifecycleOwner, TunerService.Tunable {
     private static final String TAG = "QuickStatusBarHeader";
     private static final boolean DEBUG = false;
 
@@ -126,7 +118,6 @@ public class QuickStatusBarHeader extends RelativeLayout implements
     private final Handler mHandler = new Handler();
     private final NextAlarmController mAlarmController;
     private final ZenModeController mZenController;
-    private final UserInfoController mUserInfoController;
     private final StatusBarIconController mStatusBarIconController;
     private final ActivityStarter mActivityStarter;
     private final BlurUtils mBlurUtils;
@@ -167,8 +158,6 @@ public class QuickStatusBarHeader extends RelativeLayout implements
     private BatteryMeterView mBatteryRemainingIcon;
     private RingerModeTracker mRingerModeTracker;
     private BatteryMeterView mBatteryMeterView;
-    protected MultiUserSwitch mMultiUserSwitch;
-    private ImageView mMultiUserAvatar;
 
     // Data Usage
     private View mDataUsageLayout;
@@ -221,7 +210,7 @@ public class QuickStatusBarHeader extends RelativeLayout implements
             NextAlarmController nextAlarmController, ZenModeController zenModeController,
             StatusBarIconController statusBarIconController,
             ActivityStarter activityStarter,
-            CommandQueue commandQueue, RingerModeTracker ringerModeTracker, UserInfoController userInfoController) {
+            CommandQueue commandQueue, RingerModeTracker ringerModeTracker) {
         super(context, attrs);
         mAlarmController = nextAlarmController;
         mZenController = zenModeController;
@@ -231,7 +220,6 @@ public class QuickStatusBarHeader extends RelativeLayout implements
                 new ContextThemeWrapper(context, R.style.QSHeaderTheme));
         mCommandQueue = commandQueue;
         mRingerModeTracker = ringerModeTracker;
-        mUserInfoController = userInfoController;
         mContentResolver = context.getContentResolver();
         mSettingsObserver.observe();
         mBlurUtils = new BlurUtils(mContext.getResources(), new DumpManager());
@@ -266,8 +254,6 @@ public class QuickStatusBarHeader extends RelativeLayout implements
         mRingerContainer = findViewById(R.id.ringer_container);
         mRingerContainer.setOnClickListener(this::onClick);
         mCarrierGroup = findViewById(R.id.carrier_group);
-        mMultiUserSwitch = findViewById(R.id.multi_user_switch);
-        mMultiUserAvatar = mMultiUserSwitch.findViewById(R.id.multi_user_avatar);
 
         updateResources();
 
@@ -352,9 +338,6 @@ public class QuickStatusBarHeader extends RelativeLayout implements
                 ringerVisible = true;
             }
 
-        } else {
-            mRingerModeIcon.setImageResource(com.android.internal.R.drawable.ic_zen_24dp);
-            ringerVisible = true;
         }
         mRingerModeIcon.setVisibility(ringerVisible ? View.VISIBLE : View.GONE);
         mRingerModeTextView.setVisibility(ringerVisible ? View.VISIBLE : View.GONE);
@@ -643,7 +626,6 @@ public class QuickStatusBarHeader extends RelativeLayout implements
             updateResources();
         }
         mListening = listening;
-        updateListeners();
 
         if (listening) {
             mZenController.addCallback(this);
@@ -741,14 +723,6 @@ public class QuickStatusBarHeader extends RelativeLayout implements
         return color == Color.WHITE ? 0 : 1;
     }
 
-    private void updateListeners() {
-        if (mListening) {
-            mUserInfoController.addCallback(this);
-        } else {
-            mUserInfoController.removeCallback(this);
-        }
-    }
-
     @NonNull
     @Override
     public Lifecycle getLifecycle() {
@@ -797,18 +771,4 @@ public class QuickStatusBarHeader extends RelativeLayout implements
         mClockView.setClockVisibleByUser(!StatusBarIconController.getIconBlacklist(
                 mContext, newValue).contains("clock"));
     }
-
-    @Override
-    public void onUserInfoChanged(String name, Drawable picture, String userAccount) {
-        if (picture != null &&
-                UserManager.get(mContext).isGuestUser(KeyguardUpdateMonitor.getCurrentUser()) &&
-                !(picture instanceof UserIconDrawable)) {
-            picture = picture.getConstantState().newDrawable(mContext.getResources()).mutate();
-            picture.setColorFilter(
-                    Utils.getColorAttrDefaultColor(mContext, android.R.attr.colorForeground),
-                    Mode.SRC_IN);
-        }
-        mMultiUserAvatar.setImageDrawable(picture);
-    }
-
 }

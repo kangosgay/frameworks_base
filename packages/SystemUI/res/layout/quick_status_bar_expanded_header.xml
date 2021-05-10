@@ -54,7 +54,7 @@
         android:clipChildren="false"
         android:clipToPadding="false"
         android:focusable="true"
-        android:paddingTop="25dp"
+        android:paddingTop="35dp"
         android:importantForAccessibility="yes" />
 
     <TextView

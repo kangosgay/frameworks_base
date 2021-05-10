@@ -163,6 +163,8 @@ public class QSPanel extends LinearLayout implements Tunable, Callback, Brightne
     private int mFooterMarginStartHorizontal;
     private Consumer<Boolean> mMediaVisibilityChangedListener;
 
+    private View mNullSpacer_below;
+    private View mNullSpacer_above;
     private View mBrightnessMirror;
 
     @Inject
@@ -241,10 +243,16 @@ public class QSPanel extends LinearLayout implements Tunable, Callback, Brightne
     }
 
     protected void addBrightnessView() {
+        mNullSpacer_above = LayoutInflater.from(mContext).inflate(
+            R.layout.qs_spacer_above, this, false);
+        mNullSpacer_below = LayoutInflater.from(mContext).inflate(
+            R.layout.qs_spacer_below, this, false);
         mBrightnessView = LayoutInflater.from(mContext).inflate(
             R.layout.quick_settings_brightness_dialog, this, false);
         updateBrightnessViewParams();
+        addView(mNullSpacer_above);
         addView(mBrightnessView);
+        addView(mNullSpacer_below);
         final ImageView level = findViewById(R.id.brightness_level);
         final ImageView icon = findViewById(R.id.brightness_icon);
         final ToggleSliderView slider = findViewById(R.id.brightness_slider);
@@ -516,7 +524,7 @@ public class QSPanel extends LinearLayout implements Tunable, Callback, Brightne
             // When using the horizontal layout, our space is quite constrained. We therefore
             // reduce some of the padding on the top, which makes the brightness bar overlapp,
             // but since that has naturally quite a bit of built in padding, that's fine.
-            padding = (int) (padding * 0.6f);
+            padding = (int) (padding * 1.0f);
         }
         setPaddingRelative(getPaddingStart(),
                 padding,

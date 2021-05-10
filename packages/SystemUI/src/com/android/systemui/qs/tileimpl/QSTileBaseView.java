@@ -159,7 +159,7 @@ public class QSTileBaseView extends com.android.systemui.plugins.qs.QSTileView {
 
     private void setActiveColor(Context context) {
         if (mShouldDisco) {
-            mColorActive = ColorUtils.genRandomAccentColor(isThemeDark(context), (long) mIcon.toString().hashCode());
+            mColorActive = Utils.getColorAttrDefaultColor(context, android.R.attr.colorAccent);
         } else {
             mColorActive = Utils.getColorAttrDefaultColor(context, android.R.attr.colorAccent);
         }
@@ -353,7 +353,7 @@ public class QSTileBaseView extends com.android.systemui.plugins.qs.QSTileView {
     private int getCircleColor(int state) {
         switch (state) {
             case Tile.STATE_ACTIVE:
-                return mColorActive;
+                return kangos_bar;
             case Tile.STATE_INACTIVE:
             case Tile.STATE_UNAVAILABLE:
                 return mColorDisabled;

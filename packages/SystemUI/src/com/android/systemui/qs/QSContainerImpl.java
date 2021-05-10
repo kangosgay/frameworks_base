@@ -78,7 +78,7 @@ public class QSContainerImpl extends FrameLayout implements
     private View mQSPanelContainer;
 
     private View mBackground;
-
+    private View mEventPillBackground;
     private int mSideMargins;
     private boolean mQsDisabled;
     private int mContentPaddingStart = -1;
@@ -101,6 +101,7 @@ public class QSContainerImpl extends FrameLayout implements
         mQSCustomizer = findViewById(R.id.qs_customize);
         mDragHandle = findViewById(R.id.qs_drag_handle_view);
         mBackground = findViewById(R.id.quick_settings_background);
+        mEventPillBackground = findViewById(R.id.event_pill);
         updateResources();
         mHeader.getHeaderQsPanel().setMediaVisibilityChangedListener((visible) -> {
             if (mHeader.getHeaderQsPanel().isShown()) {
@@ -168,6 +169,7 @@ public class QSContainerImpl extends FrameLayout implements
 
     private void updateAlpha() {
         mBackground.getBackground().setAlpha(mQsBackgroundAlpha);
+        mEventPillBackground.getBackground().setAlpha(mQsBackgroundAlpha);
     }
 
     @Override

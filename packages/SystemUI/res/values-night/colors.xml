@@ -47,14 +47,16 @@
     <color name="notification_guts_header_text_color">@color/GM2_grey_200</color>
     <color name="notification_guts_priority_button_content_color">@color/GM2_grey_500</color>
     <color name="notification_guts_priority_button_bg_fill_color">@color/transparent</color>
-    <color name="notification_guts_priority_button_bg_fill_color_selected">@color/GM2_grey_800</color>
-    <color name="notification_guts_priority_button_bg_stroke_color">@color/GM2_grey_700</color>
+    <color name="notification_guts_priority_button_bg_fill_color_selected">#22ffffff</color>
+    <color name="notification_guts_priority_button_bg_stroke_color">#22ffffff</color>
     <color name="notification_section_header_label_color">@color/GM2_grey_200</color>
     <color name="notification_section_clear_all_btn_color">@color/GM2_grey_500</color>
     <color name="notification_channel_dialog_separator">@color/GM2_grey_700</color>
 
     <!-- The color of the background in the top part of QSCustomizer -->
     <color name="qs_customize_background">@color/GM2_grey_900</color>
+
+    <color name="qs_background_grey">#30ffffff</color>
 
     <!-- The color of the background in the bottom part of QSCustomizer -->
     <color name="qs_customize_decoration">@color/GM2_grey_800</color>
@@ -111,4 +113,7 @@
     <color name="dismiss_all_icon_color">@android:color/white</color>
 
     <color name="qs_tile_background_color_disabled">#1f1f1f</color>
+
+    <color name="qs_statusbar_color">#303030</color>
+
 </resources>

@@ -53,4 +53,6 @@
     <color name="dismiss_all_icon_color">#8a000000</color>
 
     <color name="datausage_color">#121212</color>
+
+    <color name="default_qs_transparency">#B3FFFFFF</color>
 </resources>

@@ -294,6 +294,7 @@ public class NotificationPanelViewController extends PanelViewController {
 
     private int mTrackingPointer;
     private VelocityTracker mQsVelocityTracker;
+    int mSBBGAlpha;
     private boolean mQsTracking;
 
     /**
@@ -628,8 +629,13 @@ public class NotificationPanelViewController extends PanelViewController {
         mLockscreenUserManager = notificationLockscreenUserManager;
         mEntryManager = notificationEntryManager;
         mConversationNotificationManager = conversationNotificationManager;
-
-        mView.setBackgroundColor(Color.TRANSPARENT);
+        mSBBGAlpha = Settings.System.getIntForUser(mView.getContext().getContentResolver(), Settings.System.QS_PANEL_BG_ALPHA_NEW, 255, UserHandle.USER_CURRENT);
+        mView.setBackgroundColor(mResources.getColor(R.color.qs_statusbar_color));
+        if (mSBBGAlpha < 255) {
+            mView.getBackground().setAlpha(mSBBGAlpha);
+        } else {
+            mView.setBackgroundColor(mResources.getColor(R.color.qs_statusbar_color));
+        }
         OnAttachStateChangeListener onAttachStateChangeListener = new OnAttachStateChangeListener();
         mView.addOnAttachStateChangeListener(onAttachStateChangeListener);
         if (mView.isAttachedToWindow()) {
@@ -2157,11 +2163,19 @@ public class NotificationPanelViewController extends PanelViewController {
 
     private void updatePanelExpanded() {
         boolean isExpanded = !isFullyCollapsed() || mExpectingSynthesizedDown;
+        boolean keyguardShowing = mBarState == StatusBarState.KEYGUARD;
+
         if (mPanelExpanded != isExpanded) {
             mHeadsUpManager.setIsPanelExpanded(isExpanded);
             mStatusBarTouchableRegionManager.setPanelExpanded(isExpanded);
             mStatusBar.setPanelExpanded(isExpanded);
             mPanelExpanded = isExpanded;
+            if(!keyguardShowing) {
+                mView.setBackgroundColor(mResources.getColor(R.color.qs_statusbar_color));
+            if (mSBBGAlpha < 255) {
+                mView.getBackground().setAlpha(mSBBGAlpha);
+               }
+            }
         }
     }
 
@@ -2934,6 +2948,10 @@ public class NotificationPanelViewController extends PanelViewController {
                     Settings.System.STATUS_BAR_LOCKED_ON_SECURE_KEYGUARD),
                     false, this, UserHandle.USER_ALL);
             resolver.registerContentObserver(Settings.System.getUriFor(
+                    Settings.System.QS_PANEL_BG_ALPHA_NEW),
+                    false, this, UserHandle.USER_ALL);
+
+            resolver.registerContentObserver(Settings.System.getUriFor(
                     Settings.System.QS_SMART_PULLDOWN),
                     false, this, UserHandle.USER_ALL);
             update();
@@ -2959,13 +2977,22 @@ public class NotificationPanelViewController extends PanelViewController {
             mStatusBarLockedOnSecureKeyguard = Settings.System.getIntForUser(
                     resolver, Settings.System.STATUS_BAR_LOCKED_ON_SECURE_KEYGUARD, 0,
                     UserHandle.USER_CURRENT) == 1;
-            mQsSmartPullDown = Settings.System.getIntForUser(resolver,
-                    Settings.System.QS_SMART_PULLDOWN, 0,
+            mSBBGAlpha = Settings.System.getIntForUser(
+                    resolver, Settings.System.QS_PANEL_BG_ALPHA_NEW, 255,
+                    UserHandle.USER_CURRENT);
+            mQsSmartPullDown = Settings.System.getIntForUser(
+                    resolver, Settings.System.QS_SMART_PULLDOWN, 0,
                     UserHandle.USER_CURRENT);
 
-
+        if (mSBBGAlpha < 255) {
+            mView.getBackground().setAlpha(mSBBGAlpha);
+        } else {
+            mView.setBackgroundColor(mResources.getColor(R.color.qs_statusbar_color));
+               }
         }
     }
+
+
 
     private final FragmentListener mFragmentListener = new FragmentListener() {
         @Override
@@ -3742,10 +3769,16 @@ public class NotificationPanelViewController extends PanelViewController {
             if (inPinnedMode) {
                 mHeadsUpExistenceChangedRunnable.run();
                 updateNotificationTranslucency();
+                mView.setBackgroundColor(Color.TRANSPARENT);
             } else {
                 setHeadsUpAnimatingAway(true);
                 mNotificationStackScroller.runAfterAnimationFinished(
                         mHeadsUpExistenceChangedRunnable);
+                mView.setBackgroundColor(Color.TRANSPARENT);
+                if (mSBBGAlpha < 255) {
+                    mView.getBackground().setAlpha(mSBBGAlpha);
+                }
+
             }
             updateGestureExclusionRect();
             mHeadsUpPinnedMode = inPinnedMode;
@@ -3827,7 +3860,15 @@ public class NotificationPanelViewController extends PanelViewController {
         }
 
         @Override
-        public void onUiModeChanged() {}
+        public void onUiModeChanged() {
+            mView.setBackgroundColor(mResources.getColor(R.color.qs_statusbar_color));
+        if (mSBBGAlpha < 255) {
+            mView.getBackground().setAlpha(mSBBGAlpha);
+        } else {
+            mView.setBackgroundColor(mResources.getColor(R.color.qs_statusbar_color));
+        }
+            reInflateViews();
+      }
     }
 
     private class StatusBarStateListener implements StateListener {
@@ -3855,10 +3896,18 @@ public class NotificationPanelViewController extends PanelViewController {
                         mBarState == StatusBarState.SHADE_LOCKED ? 0
                                 : mKeyguardStateController.calculateGoingToFullShadeDelay();
                 mQs.animateHeaderSlidingIn(delay);
+                mView.setBackgroundColor(mResources.getColor(R.color.qs_statusbar_color));
+            if (mSBBGAlpha < 255) {
+                mView.getBackground().setAlpha(mSBBGAlpha);
+            } else {
+                mView.setBackgroundColor(mResources.getColor(R.color.qs_statusbar_color));
+            }
+
             } else if (oldState == StatusBarState.SHADE_LOCKED
                     && statusBarState == StatusBarState.KEYGUARD) {
                 animateKeyguardStatusBarIn(StackStateAnimator.ANIMATION_DURATION_STANDARD);
                 mNotificationStackScroller.resetScrollPosition();
+                mView.setBackgroundColor(Color.TRANSPARENT);
                 // Only animate header if the header is visible. If not, it will partially
                 // animate out
                 // the top of QS
@@ -3868,6 +3917,21 @@ public class NotificationPanelViewController extends PanelViewController {
             } else {
                 mKeyguardStatusBar.setAlpha(1f);
                 mKeyguardStatusBar.setVisibility(keyguardShowing ? View.VISIBLE : View.INVISIBLE);
+                mView.setBackgroundColor(keyguardShowing ? Color.TRANSPARENT : mResources.getColor(R.color.qs_statusbar_color));
+            if (mSBBGAlpha < 255) {
+                mView.getBackground().setAlpha(mSBBGAlpha);
+            } else {
+                mView.setBackgroundColor(mResources.getColor(R.color.qs_statusbar_color));
+            }
+            if (oldState == StatusBarState.KEYGUARD && mQsFullyExpanded) {
+                mView.setBackgroundColor(mResources.getColor(R.color.qs_statusbar_color));
+                mSBBGAlpha = Settings.System.getIntForUser(mView.getContext().getContentResolver(), Settings.System.QS_PANEL_BG_ALPHA_NEW, 255, UserHandle.USER_CURRENT);
+                if (mSBBGAlpha < 255) {
+                    mView.getBackground().setAlpha(mSBBGAlpha);
+                } else {
+                    mView.setBackgroundColor(mResources.getColor(R.color.qs_statusbar_color));
+                }
+            }
                 if (keyguardShowing && oldState != mBarState) {
                     if (mQs != null) {
                         mQs.hideImmediately();
@@ -3948,6 +4012,8 @@ public class NotificationPanelViewController extends PanelViewController {
             super.onLayoutChange(v, left, top, right, bottom, oldLeft, oldTop, oldRight, oldBottom);
             setIsFullWidth(mNotificationStackScroller.getWidth() == mView.getWidth());
 
+            boolean keyguardShowing = mBarState == StatusBarState.KEYGUARD;
+
             // Update Clock Pivot
             mKeyguardStatusView.setPivotX(mView.getWidth() / 2);
             mKeyguardStatusView.setPivotY(
@@ -3978,6 +4044,27 @@ public class NotificationPanelViewController extends PanelViewController {
             } else if (!mQsExpanded) {
                 setQsExpansion(mQsMinExpansionHeight + mLastOverscroll);
             }
+
+
+
+        if ((mQsExpanded || mQsFullyExpanded) && keyguardShowing) {
+            mView.setBackgroundColor(mResources.getColor(R.color.qs_statusbar_color));
+            if (mSBBGAlpha < 255) {
+                mView.getBackground().setAlpha(mSBBGAlpha);
+            } else {
+                mView.setBackgroundColor(mResources.getColor(R.color.qs_statusbar_color));
+            }
+            if (mKeyguardStatusView != null) {
+                mKeyguardStatusView.setVisibility(View.INVISIBLE);
+            }
+        }
+        if (!mQsExpanded && keyguardShowing) {
+            mView.setBackgroundColor(Color.TRANSPARENT);
+            if (mKeyguardStatusView != null) {
+                mKeyguardStatusView.setVisibility(View.VISIBLE);
+            }
+        }
+
             updateExpandedHeight(getExpandedHeight());
             updateHeader();
 

@@ -23,6 +23,7 @@
     <color name="system_bar_background_opaque">#ff000000</color>
     <color name="system_bar_background_transparent">#00000000</color>
     <color name="notification_panel_solid_background">#ff000000</color>
+    <color name="qs_background_grey">#f5cdcdc5</color>
     <drawable name="status_bar_notification_row_background_color">#ff090909</drawable>
     <color name="notification_list_shadow_top">#80000000</color>
     <drawable name="heads_up_notification_bg_pressed">#ff33B5E5</drawable>
@@ -110,8 +111,8 @@
     <color name="notification_alert_color">#FFF87B2B</color>
     <color name="notification_guts_priority_button_content_color">@color/GM2_grey_700</color>
     <color name="notification_guts_priority_button_bg_fill_color">@color/transparent</color>
-    <color name="notification_guts_priority_button_bg_fill_color_selected">#FFFFFF</color>
-    <color name="notification_guts_priority_button_bg_stroke_color">@color/GM2_grey_300</color>
+    <color name="notification_guts_priority_button_bg_fill_color_selected">#22000000</color>
+    <color name="notification_guts_priority_button_bg_stroke_color">#22000000</color>
 
     <color name="notification_section_header_label_color">@color/GM2_grey_900</color>
     <color name="notification_section_clear_all_btn_color">@color/GM2_grey_700</color>
@@ -272,4 +273,7 @@
     <color name="misalignment_text_color">#F28B82</color>
 
     <color name="screenrecord_status_color">#E94235</color>
+
+    <color name="qs_statusbar_color">#f5cdcdc5</color>
+
 </resources>
