@@ -97,27 +97,29 @@ public class AdaptiveIcon extends LayerDrawable {
         mAdaptiveConstantState.mColor = color;
     }
 
+    public int getBackgroundColor() {
+        return mBackgroundColor;
+    }
+
     /**
-     * Set background color for AICP theming.
+     * Set background color.
      * @hide
      */
-    public void setBackgroundColorAicp(int color) {
-        // Keep mBackgroundColor for resetting
-        //mBackgroundColor = color;
+    public void setCustomBackgroundColor(int color) {
         Drawable bg = getDrawable(0);
-        // Remove background from non-AICP setBackgroundColor call
+        // Remove background from AdaptiveIcon#setBackgroundColor
         bg.clearColorFilter();
         // Apply color
         bg.setTint(color);
         // Fix wellbeing-like icons
-        removeForegroundBackgroundAicp();
+        removeForegroundBackground();
     }
 
     /**
-     * Set foreground color for AICP theming.
+     * Set foreground color.
      * @hide
      */
-    public void setForegroundColorAicp(int color) {
+    public void setForegroundColor(int color) {
         Drawable fg = getDrawable(1);
         // Workaround layer drawables containing background (looking at Digital Wellbeing)
         if (fg instanceof LayerDrawable) {
@@ -135,7 +137,7 @@ public class AdaptiveIcon extends LayerDrawable {
      * Looking at you, Digital Wellbeing
      * @hide
      */
-    private void removeForegroundBackgroundAicp() {
+    private void removeForegroundBackground() {
         Drawable fg = getDrawable(1);
         if (fg instanceof LayerDrawable) {
             LayerDrawable ld = (LayerDrawable) fg;
@@ -146,10 +148,10 @@ public class AdaptiveIcon extends LayerDrawable {
     }
 
     /**
-     * Reset foreground and background color for AICP theming.
+     * Reset foreground and background colors.
      * @hide
      */
-    public void resetColorsAicp() {
+    public void resetColors() {
         // Reset background color
         Drawable bg = getDrawable(0);
         bg.clearColorFilter();
@@ -161,7 +163,7 @@ public class AdaptiveIcon extends LayerDrawable {
             LayerDrawable ld = (LayerDrawable) fg;
             if (ld.getNumberOfLayers() == 2) {
                 fg = ld.getDrawable(1);
-                // Undo changes from removeForegroundBackgroundAicp
+                // Undo changes from removeForegroundBackground
                 ld.getDrawable(0).setTintList(null);
             }
         }
