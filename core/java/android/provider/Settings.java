@@ -6191,16 +6191,16 @@ public final class Settings {
         public static final String LOCKSCREEN_MAX_NOTIF_CONFIG = "lockscreen_max_notif_cofig";
 
         /**
-         * Status Bar Color Icon
-         * @hide
-         */
-        public static final String STATUSBAR_COLOR_ICON = "statusbar_color_icon";
-
-        /**
          * Some creation simillar to samsung OneUI
          * @hide
          */
         public static final String SETTINGS_SPACER = "settings_spacer";
+
+        /**
+         * Whether StatusBar icons should use app icon
+         * @hide
+         */
+        public static final String STATUSBAR_ICONS_STYLE = "statusbar_icons_style";
 
         /**
          * Keys we no longer back up under the current schema, but want to continue to
@@ -6385,8 +6385,8 @@ public final class Settings {
             PRIVATE_SETTINGS.add(QS_TILES_BG_DISCO);
             PRIVATE_SETTINGS.add(HIDE_SMART_REPLIES);
             PRIVATE_SETTINGS.add(NETWORK_TRAFFIC_VIEW_LOCATION);
-            PRIVATE_SETTINGS.add(STATUSBAR_COLOR_ICON);
             PRIVATE_SETTINGS.add(GREETING_MODE_ANIMATIONS);
+            PRIVATE_SETTINGS.add(STATUSBAR_ICONS_STYLE);
         }
 
         /**
