@@ -434,7 +434,7 @@ public class StatusBarIconView extends AnimatedImageView implements StatusIconDi
         Drawable icon;
         String pkgName = statusBarIcon.pkg;
         mIsSystemUI = pkgName.contains("systemui");
-        if (!NewIconStyle) {
+        if (!NewIconStyle || pkgName.contains("telecom")) {
            icon = statusBarIcon.icon.loadDrawableAsUser(context, userId);
         } else {
         try {
@@ -746,8 +746,10 @@ public class StatusBarIconView extends AnimatedImageView implements StatusIconDi
     }
 
     public int getStaticDrawableColor() {
-        if (mNotification == null) return mDrawableColor;
-        return mNotification.getPackageName().contains("systemui") /*mIsSystemUI*/ ? mDrawableColor : 0;
+        if (mNotification == null || mNotification.getPackageName().contains("systemui") || !NewIconStyle)
+	return mDrawableColor;
+        else
+	return 0 ;
     }
 
     /**
