@@ -452,7 +452,7 @@ public class GlobalActionsDialog implements DialogInterface.OnDismissListener,
         switch (key) {
             case NOTIFICATION_BG_ALPHA:
                 mNotificationBackgroundAlpha =
-                        TunerService.parseInteger(newValue, 255);
+                        TunerService.parseInteger(newValue, 170);
                 GlobalActionsPowerDialog.mNotificationBackgroundAlpha = mNotificationBackgroundAlpha;
                 break;
             default:

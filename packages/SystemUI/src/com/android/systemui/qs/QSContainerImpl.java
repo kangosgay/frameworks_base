@@ -85,7 +85,7 @@ public class QSContainerImpl extends FrameLayout implements
     private int mContentPaddingEnd = -1;
     private boolean mAnimateBottomOnNextLayout;
 
-    private int mQsBackgroundAlpha = 255;
+    private int mQsBackgroundAlpha = 0;
 
     public QSContainerImpl(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -159,7 +159,7 @@ public class QSContainerImpl extends FrameLayout implements
         switch (key) {
             case QS_PANEL_BG_ALPHA:
                 mQsBackgroundAlpha =
-                        TunerService.parseInteger(newValue, 255);
+                        TunerService.parseInteger(newValue, 0);
                 updateAlpha();
                 break;
             default:

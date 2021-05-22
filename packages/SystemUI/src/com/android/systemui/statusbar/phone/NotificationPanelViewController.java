@@ -629,7 +629,7 @@ public class NotificationPanelViewController extends PanelViewController {
         mLockscreenUserManager = notificationLockscreenUserManager;
         mEntryManager = notificationEntryManager;
         mConversationNotificationManager = conversationNotificationManager;
-        mSBBGAlpha = Settings.System.getIntForUser(mView.getContext().getContentResolver(), Settings.System.QS_PANEL_BG_ALPHA_NEW, 255, UserHandle.USER_CURRENT);
+        mSBBGAlpha = Settings.System.getIntForUser(mView.getContext().getContentResolver(), Settings.System.QS_PANEL_BG_ALPHA_NEW, 170, UserHandle.USER_CURRENT);
         mView.setBackgroundColor(mResources.getColor(R.color.qs_statusbar_color));
         if (mSBBGAlpha < 255) {
             mView.getBackground().setAlpha(mSBBGAlpha);
@@ -2978,7 +2978,7 @@ public class NotificationPanelViewController extends PanelViewController {
                     resolver, Settings.System.STATUS_BAR_LOCKED_ON_SECURE_KEYGUARD, 0,
                     UserHandle.USER_CURRENT) == 1;
             mSBBGAlpha = Settings.System.getIntForUser(
-                    resolver, Settings.System.QS_PANEL_BG_ALPHA_NEW, 255,
+                    resolver, Settings.System.QS_PANEL_BG_ALPHA_NEW, 170,
                     UserHandle.USER_CURRENT);
             mQsSmartPullDown = Settings.System.getIntForUser(
                     resolver, Settings.System.QS_SMART_PULLDOWN, 0,
@@ -3925,7 +3925,7 @@ public class NotificationPanelViewController extends PanelViewController {
             }
             if (oldState == StatusBarState.KEYGUARD && mQsFullyExpanded) {
                 mView.setBackgroundColor(mResources.getColor(R.color.qs_statusbar_color));
-                mSBBGAlpha = Settings.System.getIntForUser(mView.getContext().getContentResolver(), Settings.System.QS_PANEL_BG_ALPHA_NEW, 255, UserHandle.USER_CURRENT);
+                mSBBGAlpha = Settings.System.getIntForUser(mView.getContext().getContentResolver(), Settings.System.QS_PANEL_BG_ALPHA_NEW, 170, UserHandle.USER_CURRENT);
                 if (mSBBGAlpha < 255) {
                     mView.getBackground().setAlpha(mSBBGAlpha);
                 } else {

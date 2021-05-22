@@ -226,7 +226,7 @@ public abstract class ActivatableNotificationView extends ExpandableOutlineView 
         switch (key) {
             case NOTIFICATION_BG_ALPHA:
                 mNotificationBackgroundAlpha =
-                        TunerService.parseInteger(newValue, 255) / 255f;
+                        TunerService.parseInteger(newValue, 170) / 255f;
                 resetBackgroundAlpha();
                 updateBackground();
                 updateOutlineAlpha();

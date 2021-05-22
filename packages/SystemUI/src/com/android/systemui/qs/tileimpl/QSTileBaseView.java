@@ -132,7 +132,8 @@ public class QSTileBaseView extends com.android.systemui.plugins.qs.QSTileView {
         setBackground(mTileBackground);
 
         mColorActive = Utils.getColorAttrDefaultColor(context, android.R.attr.colorAccent);
-        mColorActiveAlpha = adjustAlpha(mColorActive, 0.2f);
+        int activeColor = Utils.getColorAttrDefaultColor(context, android.R.attr.colorAccent);
+        mColorActiveAlpha = androidx.core.graphics.ColorUtils.setAlphaComponent(activeColor, 51 /* 20% opacity */);
         boolean setQsUseNewTint = Settings.System.getIntForUser(context.getContentResolver(),
                 Settings.System.QS_PANEL_BG_USE_NEW_TINT, 0, UserHandle.USER_CURRENT) == 1;
         mShouldDisco = Settings.System.getIntForUser(context.getContentResolver(),
@@ -145,8 +146,7 @@ public class QSTileBaseView extends com.android.systemui.plugins.qs.QSTileView {
             }
             mColorDisabled = context.getResources().getColor(R.color.qs_tile_background_color_disabled);
         } else {
-            mColorDisabled = Utils.getDisabled(context,
-                    Utils.getColorAttrDefaultColor(context, android.R.attr.textColorTertiary));
+            mColorDisabled = mColorActiveAlpha;
         }
         mColorInactive = Utils.getColorAttrDefaultColor(context, android.R.attr.textColorSecondary);
 
@@ -159,7 +159,7 @@ public class QSTileBaseView extends com.android.systemui.plugins.qs.QSTileView {
 
     private void setActiveColor(Context context) {
         if (mShouldDisco) {
-            mColorActive = Utils.getColorAttrDefaultColor(context, android.R.attr.colorAccent);
+            mColorActive = ColorUtils.genRandomAccentColor(isThemeDark(context), (long) mIcon.toString().hashCode());
         } else {
             mColorActive = Utils.getColorAttrDefaultColor(context, android.R.attr.colorAccent);
         }
@@ -353,7 +353,7 @@ public class QSTileBaseView extends com.android.systemui.plugins.qs.QSTileView {
     private int getCircleColor(int state) {
         switch (state) {
             case Tile.STATE_ACTIVE:
-                return kangos_bar;
+                return mColorActive;
             case Tile.STATE_INACTIVE:
             case Tile.STATE_UNAVAILABLE:
                 return mColorDisabled;
