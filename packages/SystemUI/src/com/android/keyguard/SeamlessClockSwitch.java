@@ -28,6 +28,7 @@ public class SeamlessClockSwitch {
         "com.android.keyguard.clock.SamsungClockController",
         "com.android.keyguard.clock.SamsungBoldClockController",
         "com.android.keyguard.clock.SamsungHighlightClockController",
+	"com.android.keyguard.clock.AnalogClockController",
         "com.android.keyguard.clock.TypeClockController",
         "com.android.keyguard.clock.TypeClockAltController",
         "com.android.keyguard.clock.DividedLinesClockController",
@@ -48,7 +49,10 @@ public class SeamlessClockSwitch {
         "com.android.keyguard.clock.BlueV2CircleClockController",
         "com.android.keyguard.clock.SquaryClockController",
         "com.android.keyguard.clock.ShapeShiftClockController",
-        "com.android.keyguard.clock.LoadingClockController"
+        "com.android.keyguard.clock.LoadingClockController",
+	"com.android.keyguard.clock.OctaviDigitalClockController",
+	"com.android.keyguard.clock.IDEJavaClockController",
+	"com.android.keyguard.clock.TypeAltClockController",
     };
 
     public static int getCurrentPosition(String currentClockFace) {
